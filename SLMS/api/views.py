@@ -1,27 +1,21 @@
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from api.models import StreetLight
 from api.serializers import StreetLightSerializer
 from django.http import HttpResponse
 
 
-@api_view(['GET', 'POST'])
-def light_status(request):
-    if request.method == 'GET':
-        #print("Request data ",request.method)
-        obj = StreetLight.objects.all()
-        # serializer= StreetLightSerializer(obj)
-        print("Serializer ",obj)
-        # return Response(serializer.data)
-        return HttpResponse("Testing response")
-
-    elif request.method == 'POST':
-        return HttpResponse("Testing response")
-        # serializer = StreetLightSerializer(data=request.data)
-        # if serializer.is_valid():
-        #     serializer.save()
-        #     return Response(serializer.data, status=status.HTTP_201_CREATED)
-        # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+class SLMS_API(APIView):
+    def get(self,request):
+        obj= StreetLight.objects.all()
+        serializer= StreetLightSerializer(obj, many=True)
+        return Response(serializer.data)
+    def post(self,request):
+        serializer = StreetLightSerializer(data=request.data)
+        print(serializer)
+        if serializer.is_valid(raise_exception=True):
+            saved = serializer.save()
+        return Response({"success": " '{}' created successfully".format(saved.comment)})
 

@@ -19,5 +19,6 @@ from api import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', views.light_status),
+    path('api/', views.SLMS_API.as_view()),
+
 ]
