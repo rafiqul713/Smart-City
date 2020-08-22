@@ -20,5 +20,6 @@ from api import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', views.SLMS_API.as_view()),
+    path('api/<id>/<status>', views.LIGHT_ON_OFF.as_view())
 
 ]
